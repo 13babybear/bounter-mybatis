@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bounter.mybatis.dao.BounterDao">
+
+	<select id="findById" resultType="Bounter">
+		select * from t_bounter where
+		id = #{id}
+	</select>
+
+	<select id="findAll" resultType="Bounter">
+		select * from t_bounter
+	</select>
+
+	<insert id="add">
+		insert into t_bounter (id,name,value,timestamp)
+		values (#{id},#{name},#{value},#{timestamp})
+	</insert>
+	
+	<insert id="batchAdd">
+		insert into t_bounter (id,name,value,timestamp)
+		values
+		  <foreach item="item" collection="list" separator=",">
+		    (#{item.id}, #{item.name}, #{item.value}, #{item.timestamp})
+		  </foreach>
+	</insert>
+
+	<update id="modify">
+		update t_bounter
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="value != null and value != ''">
+				value = #{value}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from t_bounter 
+		where id = #{id}
+	</delete>
+</mapper>
